@@ -1,6 +1,7 @@
 CREATE TABLE [${schema1}].[Task](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Subject] [varchar](150) NOT NULL,
+    [Active] bit default 1 NOT NULL,
     CONSTRAINT [PK_Task] PRIMARY KEY CLUSTERED 
     (
         [Id] ASC

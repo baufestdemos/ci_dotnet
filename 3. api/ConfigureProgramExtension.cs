@@ -1,5 +1,9 @@
+using Core.Cross.Cqrs;
+using Core.Cross.Transactions;
+using Core.Todo.Infra;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api;
 
@@ -12,6 +16,29 @@ public static class ConfigureProgramExtension
         services.AddDataProtection().DisableAutomaticKeyGeneration();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddDbContextPool<EFDemoDbContext>(options =>
+        {
+            options.UseSqlServer(config.GetConnectionString("DemoDbConnection"));
+        });
+
+        services.AddDbContextPool<EFDemoDbReadContext>(options =>
+        {
+            options.UseSqlServer(config.GetConnectionString("DemoDbConnection"));
+        });
+
+        services.AddScoped<ITransactor, EFImplicitTransactor<EFDemoDbContext>>();
+
+        services.Scan(selector =>
+        {
+            selector.FromApplicationDependencies()
+                    .AddClasses(filter =>
+                    {
+                        filter.AssignableTo(typeof(IQueryHandler<,>));
+                    })
+                    .AsImplementedInterfaces()
+                    .WithLifetime(ServiceLifetime.Transient);
+        });
         return builder;
     }
 
@@ -24,11 +51,15 @@ public static class ConfigureProgramExtension
             app.UseHttpsRedirection();
         }
 
+        app.UseTodoTaskEndpoints();
+
         app.UseSwagger();
         app.UseSwaggerUI();
+
         var option = new RewriteOptions();
         option.AddRedirect("^$", "swagger");
         app.UseRewriter(option);
+
         app.Run();
         return builder;
     }

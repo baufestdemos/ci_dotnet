@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dotnet API",
+            "name": "demo API",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -22,7 +22,7 @@
             }
         },
         {
-            "name": "dotnet SPA BFF",
+            "name": "demo SPA BFF",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -37,11 +37,6 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach"
         }
     ]
 }
