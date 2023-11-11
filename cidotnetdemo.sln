@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2. domain", "2. domain\2. domain.csproj", "{6DB639F1-3F38-4D23-8F1B-355C7C2EFDCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2. api", "3. api\2. api.csproj", "{9544F397-706D-4102-B2D3-5BC349F3A9D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3. api", "3. api\3. api.csproj", "{9544F397-706D-4102-B2D3-5BC349F3A9D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "4. spabff", "4. spabff\4. spabff.csproj", "{9E2B48D8-9A99-424C-9A0F-F2585A54047D}"
 EndProject
