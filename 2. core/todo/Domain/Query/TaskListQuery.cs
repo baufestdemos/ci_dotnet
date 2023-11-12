@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.Todo.Domain.Query;
 
-public class TaskListQuery : IQueryHandler<object, IEnumerable<TodoTaskTo>>
+public class TaskListQuery : IQueryHandler<object?, IEnumerable<TodoTaskTo>>
 {
     protected readonly EFDemoDbReadContext _dbContext;
     protected readonly ILogger<TaskListQuery> _logger;
@@ -17,7 +17,7 @@ public class TaskListQuery : IQueryHandler<object, IEnumerable<TodoTaskTo>>
         _logger = logger;
     }
 
-    public Task<IEnumerable<TodoTaskTo>> Handle(CancellationToken cancellation, object queryIn = null)
+    public Task<IEnumerable<TodoTaskTo>> Handle(CancellationToken cancellation, object? queryIn = null)
     {
         if (cancellation.IsCancellationRequested)
         {

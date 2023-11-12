@@ -13,7 +13,7 @@ public interface IQueryHandler<in QI, QR>
     /// <param name="queryIn">Datos de entrada para la query</param>
     /// <param name="cancellation">Token de operación</param>
     /// <returns></returns>
-    Task<QR> Handle(CancellationToken cancellation, QI queryIn = default);
+    Task<QR> Handle(CancellationToken cancellation, QI? queryIn = default);
 }
 
 /// <summary>
@@ -30,5 +30,5 @@ public interface ICommandHandler<in CI, CR>
     /// <param name="commandIn">Datos de entrada</param>
     /// <param name="cancellation">Token de operación</param>
     /// <returns></returns>
-    Task<CR> Handle(CancellationToken cancellation, CI commandIn = default);
+    Task<CR> Handle(CancellationToken cancellation, CI commandIn);
 }

@@ -13,6 +13,9 @@ public class EFDemoDbContext : DbContext
     {
         modelBuilder.Entity<TodoTask>().ToTable("Task", "demo")
         .HasKey(e => e.Id);
+
+        modelBuilder.Entity<TodoTask>()
+        .Property(e => e.Active).HasDefaultValue();
     }
 }
 

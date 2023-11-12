@@ -13,7 +13,7 @@ public static class EvolveMigrationExtension
             if (builder.Environment.IsDevelopment())
             {
                 IConfiguration config = builder.Configuration;
-                string location = config["DatabaseLocation"];
+                string location = config["DatabaseLocation"]!;
                 using var demoDbconnection = new SqlConnection(config.GetConnectionString("DemoDbConnection"));
                 var evolve = new Evolve(demoDbconnection, Log.Information)
                 {

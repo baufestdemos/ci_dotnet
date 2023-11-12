@@ -39,6 +39,17 @@ public static class ConfigureProgramExtension
                     .AsImplementedInterfaces()
                     .WithLifetime(ServiceLifetime.Transient);
         });
+
+        services.Scan(selector =>
+        {
+            selector.FromApplicationDependencies()
+                    .AddClasses(filter =>
+                    {
+                        filter.AssignableTo(typeof(ICommandHandler<,>));
+                    })
+                    .AsImplementedInterfaces()
+                    .WithLifetime(ServiceLifetime.Transient);
+        });
         return builder;
     }
 
