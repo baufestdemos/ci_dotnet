@@ -1,6 +1,11 @@
+using Serilog;
+using SpaBff;
+
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
-app.Run();
+builder
+.ConfigServices()
+.ConfigApp();

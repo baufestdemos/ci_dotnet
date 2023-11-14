@@ -9,11 +9,12 @@ public static class TodoTaskEndpointExtension
 
     public static WebApplication UseTodoTaskEndpoints(this WebApplication app)
     {
-        app.MapGet("/api/task/all", async (CancellationToken cancellationToken,
+        string groupTag = "Todo";
+        app.MapGet("/api/task", async (CancellationToken cancellationToken,
             IQueryHandler<object, IEnumerable<TodoTaskTo>> listQuery) =>
         {
             return await listQuery.Handle(cancellationToken);
-        }).WithTags("Todo")
+        }).WithTags(groupTag)
         .WithOpenApi(options =>
         {
             options.Summary = "List task";
@@ -21,7 +22,7 @@ public static class TodoTaskEndpointExtension
             return options;
         });
 
-        app.MapPost("/api/task/add", async (CancellationToken cancellationToken,
+        app.MapPost("/api/task", async (CancellationToken cancellationToken,
             ICommandHandler<TodoTaskTo, ResultTo<TodoTaskTo>> addCommand, ITransactor transactor,
             TodoTaskTo task) =>
         {
@@ -29,7 +30,7 @@ public static class TodoTaskEndpointExtension
             {
                 return await addCommand.Handle(cancellationToken, task);
             });
-        }).WithTags("Todo")
+        }).WithTags(groupTag)
         .WithOpenApi(options =>
         {
             options.Summary = "Add task";
@@ -37,7 +38,7 @@ public static class TodoTaskEndpointExtension
             return options;
         });
 
-        app.MapDelete("/api/task/remove", async (CancellationToken cancellationToken,
+        app.MapDelete("/api/task", async (CancellationToken cancellationToken,
             ICommandHandler<int, ResultTo<TodoTaskTo?>> removeCommand, ITransactor transactor,
             int id) =>
         {
@@ -45,7 +46,7 @@ public static class TodoTaskEndpointExtension
             {
                 return await removeCommand.Handle(cancellationToken, id);
             });
-        }).WithTags("Todo")
+        }).WithTags(groupTag)
         .WithOpenApi(options =>
         {
             options.Summary = "Remove task";
