@@ -5,7 +5,8 @@ namespace Core.Todo.Infra;
 
 public class EFDemoDbContext : DbContext
 {
-    public DbSet<TodoTask> TodoTasks { get; set; }
+    public virtual DbSet<TodoTask> TodoTasks { get; set; }
+    public EFDemoDbContext() { }
 
     public EFDemoDbContext(DbContextOptions options) : base(options) { }
 
@@ -16,6 +17,11 @@ public class EFDemoDbContext : DbContext
 
         modelBuilder.Entity<TodoTask>()
         .Property(e => e.Active).HasDefaultValue();
+    }
+
+    public void FindAsync(object[] objects)
+    {
+        throw new NotImplementedException();
     }
 }
 

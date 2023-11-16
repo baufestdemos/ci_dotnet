@@ -10,11 +10,10 @@ namespace Core.Todo.Domain.Command;
 public class TaskRemoveCommand : ICommandHandler<int, ResultTo<TodoTaskTo?>>
 {
     protected readonly EFDemoDbContext _dbContext;
-
-    protected readonly ILogger<TaskAddCommand> _logger;
+    protected readonly ILogger<TaskRemoveCommand> _logger;
 
     public TaskRemoveCommand(EFDemoDbContext dbContext,
-        ILogger<TaskAddCommand> logger)
+        ILogger<TaskRemoveCommand> logger)
     {
         _dbContext = dbContext;
         _logger = logger;

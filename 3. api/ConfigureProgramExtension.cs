@@ -1,6 +1,8 @@
 using Core.Cross.Cqrs;
 using Core.Cross.Transactions;
+using Core.Todo.Domain.Contract;
 using Core.Todo.Infra;
+using Core.Todo.Infra.Repos;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +52,8 @@ public static class ConfigureProgramExtension
                     .AsImplementedInterfaces()
                     .WithLifetime(ServiceLifetime.Transient);
         });
+
+        services.AddTransient<IReadTaskRepo, EFReadTaskRepo>();
         return builder;
     }
 

@@ -10,7 +10,6 @@ namespace Core.Todo.Domain.Command;
 public class TaskAddCommand : ICommandHandler<TodoTaskTo, ResultTo<TodoTaskTo>>
 {
     protected readonly EFDemoDbContext _dbContext;
-
     protected readonly ILogger<TaskAddCommand> _logger;
 
     public TaskAddCommand(EFDemoDbContext dbContext,
@@ -32,7 +31,7 @@ public class TaskAddCommand : ICommandHandler<TodoTaskTo, ResultTo<TodoTaskTo>>
         await _dbContext.TodoTasks.AddAsync(new TodoTask
         {
             Subject = commandIn.Subject!
-        });
+        }, cancellation);
 
         result.Value = commandIn;
         return result;

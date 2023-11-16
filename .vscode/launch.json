@@ -15,7 +15,7 @@
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -33,6 +33,9 @@
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "launchBrowser": {
+                "enabled": true
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"

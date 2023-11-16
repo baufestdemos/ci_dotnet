@@ -1,36 +1,26 @@
 using Core.Cross.Cqrs;
+using Core.Todo.Domain.Contract;
 using Core.Todo.Domain.Tos;
-using Core.Todo.Infra;
-using Microsoft.Extensions.Logging;
 
 namespace Core.Todo.Domain.Query;
 
 public class TaskListQuery : IQueryHandler<object?, IEnumerable<TodoTaskTo>>
 {
-    protected readonly EFDemoDbReadContext _dbContext;
-    protected readonly ILogger<TaskListQuery> _logger;
-
-    public TaskListQuery(EFDemoDbReadContext dbContext,
-        ILogger<TaskListQuery> logger)
+    protected readonly IReadTaskRepo _repo;
+    public TaskListQuery(IReadTaskRepo repo)
     {
-        _dbContext = dbContext;
-        _logger = logger;
+        _repo = repo;
     }
 
-    public Task<IEnumerable<TodoTaskTo>> Handle(CancellationToken cancellation, object? queryIn = null)
+    public async Task<IEnumerable<TodoTaskTo>> Handle(CancellationToken cancellation, object? queryIn = null)
     {
-        if (cancellation.IsCancellationRequested)
-        {
-            _logger.LogInformation("Request has been cancelled..");
-            throw new OperationCanceledException();
-        }
+        var allTask = await _repo.All(cancellation);
 
-        return Task.FromResult(_dbContext.TodoTasks.Where(e => e.Active)
-        .AsEnumerable()
+        return allTask
         .Select(e => new TodoTaskTo
         {
             Id = e.Id,
             Subject = e.Subject
-        }));
+        });
     }
 }
