@@ -1,0 +1,26 @@
+name: Deploy demo Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      dotnet-profile:
+        required: true
+        type: string
+        
+permissions:
+  contents: read
+  
+jobs:   
+  build_upload:
+    uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@feature/pipeline
+    with: 
+      dotnet-profile: ${{ inputs.dotnet-profile }}
+    secrets: inherit
+    
+  deploy_component:
+    needs: [build_upload]
+    uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@feature/pipeline
+    with: 
+      dotnet-profile: ${{ inputs.dotnet-profile }}
+    secrets: inherit
+          
