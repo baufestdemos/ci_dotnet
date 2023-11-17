@@ -1,0 +1,79 @@
+name: Build solution & upload artifacts
+run-name: Build solution & upload artifacts ${{ github.event_name }}
+on:
+  workflow_dispatch:
+    inputs:
+      dotnet-profile:
+        required: true
+        type: string
+        
+  workflow_call:
+    inputs:
+      dotnet-profile:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  
+jobs:
+  build:
+    name: Build solution, upload artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ vars.DOTNET_VERSION }}
+
+      - name: Set up dependency caching for nuget
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+            
+      - name: Set up dependency caching for npm-next
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: Test with dotnet
+        run: dotnet test
+
+      - name: Build with dotnet
+        run: dotnet build -c ${{inputs.dotnet-profile}}
+
+      - name: dotnet publish with .pdb
+        run: dotnet publish -c ${{inputs.dotnet-profile}}
+        if: ${{ inputs.dotnet-profile != 'Release' }} 
+      
+      - name: dotnet publish without .pdb
+        run: dotnet publish -c ${{inputs.dotnet-profile}} /p:DebugType=None /p:DebugSymbols=false
+        if: ${{ inputs.dotnet-profile == 'Release' }}
+
+      - name: Upload demo Database
+        uses: actions/upload-artifact@v3
+        with:
+          name: Demo.Database
+          path: ${{vars.BASE_PATH}}/1. database
+
+      - name: Upload demo API
+        uses: actions/upload-artifact@v3
+        with:
+          name: Demo.API
+          path: ${{vars.BASE_PATH}}/3. api/bin/${{inputs.dotnet-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+            
+      - name: Upload demo SPA BFF
+        uses: actions/upload-artifact@v3
+        with:
+          name: Demo.SpaBff
+          path: ${{vars.BASE_PATH}}/4. spabff/bin/${{inputs.dotnet-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+      
