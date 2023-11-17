@@ -13,7 +13,7 @@ permissions:
 jobs:                 
   deploy_staging:
     name: Deploy / Staging
-    runs-on: vm-vbox
+    runs-on: [self-hosted, "${{ inputs.dotnet-profile }}"]
     if: ${{ inputs.dotnet-profile == 'Staging' }} 
     steps:          
       - name: Download demo Database artifact
