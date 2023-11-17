@@ -35,11 +35,11 @@ jobs:
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
     steps:
       - name: Stop site
-        if: ${{ inputs.site-name == 'apidemo' || inputs.service-name == 'all'}}
+        if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
         shell: pwsh
         run: Stop-IISSite -Name apidemo
         
       - name: Stop App Service Spa.Simple
-        if: ${{ inputs.site-name == 'spabffdemo' || inputs.service-name == 'all'}}
+        if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
         shell: pwsh
         run: Stop-IISSite -Name spabffdemo
