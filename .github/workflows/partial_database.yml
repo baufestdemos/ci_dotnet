@@ -13,7 +13,7 @@ permissions:
 jobs:                 
   deploy_staging:
     name: Deploy / Staging
-    runs-on: vm-vbox
+    runs-on: [self-hosted, "${{ inputs.dotnet-profile }}"]
     if: ${{ inputs.dotnet-profile == 'Staging' }} 
     steps:          
       - name: Download demo Database artifact
@@ -28,9 +28,12 @@ jobs:
           dotnet-version: 6.0.411
           
       - name: Setup Evolve
-        run: dotnet tool install --global Evolve.Tool
+        continue-on-error: true
+        run: |
+             dotnet tool install --global Evolve.Tool
         
       - name: Evolve migration
+        shell: pwsh
         run: |
           evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -p schema1:demo
           
