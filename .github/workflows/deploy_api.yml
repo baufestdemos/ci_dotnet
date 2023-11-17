@@ -25,6 +25,7 @@ jobs:
     uses: baufestdemos/ci_dotnet/.github/workflows/stop_iis_site.yml@feature/pipeline
     with: 
       service-name: apidemo
+      env-profile: ${{ inputs.env-profile }}
     secrets: inherit
       
   build_upload:
@@ -57,6 +58,7 @@ jobs:
     uses: baufestdemos/ci_dotnet/.github/workflows/start_iis_site.yml@feature/pipeline
     with: 
       service-name: apidemo
+      env-profile: ${{ inputs.env-profile }}
     secrets: inherit
           
       
