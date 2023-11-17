@@ -32,5 +32,5 @@ jobs:
         
       - name: Evolve migration
         run: |
-          evolve migrate sqlserver -c "${{ secrets.DB_PROD_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -s public -p schema1:public
+          evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -p schema1:demo
           
