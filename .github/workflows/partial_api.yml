@@ -16,7 +16,7 @@ jobs:
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
     if: ${{ inputs.env-profile == 'Staging' }} 
     steps:
-      - name: Download artifac Api.Simple
+      - name: Download artifac Demo API
         uses: actions/download-artifact@v3
         with:
           name: Demo.API
