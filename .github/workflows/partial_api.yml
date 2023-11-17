@@ -22,7 +22,7 @@ jobs:
           name: Demo.API
 
       - name: IIS Deploy
-        shell: pwsh
+        shell: powershell
         run: |
           Copy-Item ${{ vars.BASE_PATH }}/Demo.API/* ${{ vars.IIS_DEMO_API_PATH }} -Recurse -Force
       
