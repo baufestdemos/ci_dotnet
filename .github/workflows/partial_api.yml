@@ -3,7 +3,7 @@ name: Partial - Demo API
 on:        
   workflow_call:
     inputs:
-      dotnet-profile:
+      env-profile:
         required: true
         type: string
         
@@ -13,8 +13,8 @@ permissions:
 jobs:    
   deploy_staging:
     name: Deploy / Staging
-    runs-on: [self-hosted, "${{ inputs.dotnet-profile }}"]
-    if: ${{ inputs.dotnet-profile == 'Staging' }} 
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    if: ${{ inputs.env-profile == 'Staging' }} 
     steps:
       - name: Download artifac Api.Simple
         uses: actions/download-artifact@v3
