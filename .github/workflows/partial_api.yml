@@ -1,0 +1,23 @@
+name: Partial - API Simple
+
+on:        
+  workflow_call:
+    inputs:
+      dotnet-profile:
+        required: true
+        type: string
+        
+permissions:
+  contents: read    
+  
+jobs:    
+  deploy_staging:
+    name: Deploy / Staging
+    runs-on: [self-hosted, "${{ inputs.dotnet-profile }}"]
+    if: ${{ inputs.dotnet-profile == 'Staging' }} 
+    steps:
+      - name: Download artifac Api.Simple
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.API
+          
