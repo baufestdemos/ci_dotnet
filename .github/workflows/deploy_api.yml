@@ -21,7 +21,6 @@ permissions:
 jobs:
   stop_application:
     name: Stop API Site
-    if: ${{ inputs.env-profile == 'Release'}}
     uses: baufestdemos/ci_dotnet/.github/workflows/stop_iis_site.yml@feature/pipeline
     with: 
       service-name: apidemo
@@ -54,7 +53,6 @@ jobs:
   start_application:
     needs: [deploy_database, deploy_api]
     name: Start API Site
-    if: ${{ inputs.env-profile == 'Release' }}
     uses: baufestdemos/ci_dotnet/.github/workflows/start_iis_site.yml@feature/pipeline
     with: 
       service-name: apidemo
