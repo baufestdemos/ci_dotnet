@@ -31,6 +31,7 @@ jobs:
         run: dotnet tool install --global Evolve.Tool
         
       - name: Evolve migration
+        shell: pwsh
         run: |
           evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -p schema1:demo
           
