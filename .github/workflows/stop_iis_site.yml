@@ -1,0 +1,45 @@
+name: Stop IIS Site
+run-name:  ${{inputs.site-name}} - Stop App Service
+
+on:
+  workflow_dispatch:
+    inputs:        
+      site-name:
+        required: true
+        type: choice
+        options:
+        - apidemo
+        - spabffdemo
+        - all
+        
+      env-profile:
+        required: true
+        type: choice
+        options:
+        - Staging
+        - Release
+        
+  workflow_call:
+    inputs:  
+      service-name:
+        required: true
+        type: string 
+
+      env-profile:
+        required: true
+        type: string
+            
+jobs:
+  stop_application:
+    name: Stop IIS Site
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    steps:
+      - name: Stop site
+        if: ${{ inputs.site-name == 'apidemo' || inputs.service-name == 'all'}}
+        shell: pwsh
+        run: Stop-IISSite -Name apidemo
+        
+      - name: Stop App Service Spa.Simple
+        if: ${{ inputs.site-name == 'spabffdemo' || inputs.service-name == 'all'}}
+        shell: pwsh
+        run: Stop-IISSite -Name spabffdemo
