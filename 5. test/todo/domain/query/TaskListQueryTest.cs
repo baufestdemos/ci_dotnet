@@ -16,6 +16,6 @@ public class TaskListQueryTest
         var todoTaskList = await taskListQuery.Handle(token);
 
         Assert.NotNull(todoTaskList);
-        Assert.Equal(2, todoTaskList.Count());
+        Assert.Equal(3, todoTaskList.Count());
     }
 }
