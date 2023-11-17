@@ -1,0 +1,36 @@
+name: Partial - Demo Database
+
+on:        
+  workflow_call:
+    inputs:
+      dotnet-profile:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  
+jobs:                 
+  deploy_staging:
+    name: Deploy / Staging
+    runs-on: vm-vbox
+    if: ${{ inputs.dotnet-profile == 'Staging' }} 
+    steps:          
+      - name: Download demo Database artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.Database
+          path: ${{ vars.BASE_PATH }}/Demo.Database
+          
+      - name: Set up .NET Core 6
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.411
+          
+      - name: Setup Evolve
+        run: dotnet tool install --global Evolve.Tool
+        
+      - name: Evolve migration
+        run: |
+          evolve migrate sqlserver -c "${{ secrets.DB_PROD_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -s public -p schema1:public
+          
