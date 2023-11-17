@@ -37,9 +37,11 @@ jobs:
       - name: Stop site apidemo
         shell: pwsh
         if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
-        run: Stop-Website -Name apidemo
+        run: |
+          Stop-Website -Name apidemo
         
       - name: Stop site spabffdemo
         if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
         shell: pwsh
-        run: Stop-Website -Name spabffdemo
+        run: |
+          Stop-Website -Name spabffdemo
