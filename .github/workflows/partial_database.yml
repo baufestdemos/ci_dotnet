@@ -29,7 +29,6 @@ jobs:
           
       - name: Setup Evolve
         run: |
-             dotnet new tool-manifest \
              dotnet tool install Evolve.Tool
         
       - name: Evolve migration
