@@ -1,5 +1,5 @@
 name: Stop IIS Site
-run-name:  ${{inputs.site-name}} - Stop App Service
+run-name:  ${{inputs.site-name}} - Stop IIS Site
 
 on:
   workflow_dispatch:
