@@ -12,6 +12,7 @@
     <SpaProxyServerUrl>http://localhost:3000</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>yarn dev</SpaProxyLaunchCommand>
     <IsPackable>false</IsPackable>
+    <Configurations>Release;Debug;Staging</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

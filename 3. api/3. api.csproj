@@ -19,6 +19,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>_3._api</RootNamespace>
     <UserSecretsId>b418f056-0253-455a-8909-c0d2d70e6f8a</UserSecretsId>
+    <Configurations>Release;Debug;Staging</Configurations>
   </PropertyGroup>
 
 </Project>
