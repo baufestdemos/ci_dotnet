@@ -1,4 +1,4 @@
-name: Stop IIS Site
+name: Start IIS Site
 run-name:  ${{inputs.site-name}} - Start IIS Site
 
 on:
