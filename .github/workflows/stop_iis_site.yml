@@ -34,12 +34,12 @@ jobs:
     name: Stop IIS Site
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
     steps:
-      - name: Stop site
-        if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
+      - name: Stop site apidemo
         shell: pwsh
+        if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
         run: Stop-Website -Name apidemo
         
-      - name: Stop App Service Spa.Simple
+      - name: Stop site spabffdemo
         if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
         shell: pwsh
         run: Stop-Website -Name spabffdemo
