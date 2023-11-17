@@ -34,13 +34,15 @@ jobs:
     name: Stop IIS Site
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
     steps:
+      - name: Stop site spabffdemo
+        shell: powershell
+        if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
+        run: Stop-Website -Name spabffdemo
+
       - name: Stop site apidemo
-        uses: 1k-off/iis-apppool-action@1.0.0
+        shell: powershell
         if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
-        with:
-          action: stop
-          appPoolName: apidemo
-          siteName: apidemo
+        run: Stop-Website -Name apidemo
         
 
         
