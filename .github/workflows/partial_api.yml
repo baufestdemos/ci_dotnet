@@ -24,9 +24,7 @@ jobs:
       - name: IIS Deploy
         shell: pwsh
         run: |
-          Stop-IISSite -Name apidemo
           Copy-Item ${{ vars.BASE_PATH }}/Demo.API/* ${{ vars.IIS_DEMO_API_PATH }} -Recurse -Force
-          Start-IISSite -Name apidemo
       
       
 
