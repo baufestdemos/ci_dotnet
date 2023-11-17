@@ -5,7 +5,11 @@ on:
     inputs:
       dotnet-profile:
         required: true
-        type: string
+        type: choice
+        options:
+        - Debug
+        - Staging
+        - Release
         
 permissions:
   contents: read
