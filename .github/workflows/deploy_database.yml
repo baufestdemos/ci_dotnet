@@ -7,7 +7,6 @@ on:
         required: true
         type: choice
         options:
-        - Debug
         - Staging
         - Release
         
