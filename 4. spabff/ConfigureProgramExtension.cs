@@ -35,6 +35,7 @@ public static class ConfigureProgramExtension
         }
 
         app.UseRouting();
+        app.UseMiddleware<StrictSameSiteExternalAuthenticationMiddleware>();
         app.MapReverseProxy();
 
 
