@@ -54,6 +54,17 @@ public static class TodoTaskEndpointExtension
             return options;
         });
 
+        app.MapGet("/api/test", async (CancellationToken cancellationToken, IConfiguration configuration) =>
+        {
+            return configuration["Test:Var"];
+        }).WithTags(groupTag)
+        .WithOpenApi(options =>
+        {
+            options.Summary = "Remove task";
+            options.Description = "Remove existing task";
+            return options;
+        });
+
         return app;
     }
 }

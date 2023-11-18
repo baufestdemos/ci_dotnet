@@ -7,7 +7,14 @@ Host.CreateDefaultBuilder(args)
             whost.UseContentRoot(Directory.GetCurrentDirectory());
             whost.ConfigureAppConfiguration((context, builder) =>
             {
-                builder.AddUserSecrets(typeof(Program).Assembly);
+                if (context.HostingEnvironment.IsDevelopment())
+                {
+                    builder.AddUserSecrets(typeof(Program).Assembly);
+                }
+                else
+                {
+                    builder.AddEnvironmentVariables(prefix: "APIDEMO_");
+                }
             });
         });
 
