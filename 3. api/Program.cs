@@ -13,7 +13,7 @@ Host.CreateDefaultBuilder(args)
                 }
                 else
                 {
-                    builder.AddEnvironmentVariables(prefix: "APIDEMO_");
+                    builder.AddEnvironmentVariables();
                 }
             });
         });
