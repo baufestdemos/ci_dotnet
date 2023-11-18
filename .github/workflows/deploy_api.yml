@@ -44,6 +44,7 @@ jobs:
     secrets: inherit
     
   deploy_api:
+    name: Deploy API
     needs: [stop_application, build_upload]
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_api.yml@feature/pipeline
     with: 
