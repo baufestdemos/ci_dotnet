@@ -21,7 +21,7 @@ on:
         
   workflow_call:
     inputs:  
-      service-name:
+      site-name:
         required: true
         type: string 
 
