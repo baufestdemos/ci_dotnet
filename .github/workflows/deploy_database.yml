@@ -1,4 +1,4 @@
-name: Deploy demo Database
+name: Deploy Demo Database
 
 on:
   workflow_dispatch:
