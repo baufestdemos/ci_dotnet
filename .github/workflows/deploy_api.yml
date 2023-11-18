@@ -18,7 +18,7 @@ jobs:
     name: Stop API Site
     uses: baufestdemos/ci_dotnet/.github/workflows/stop_iis_site.yml@feature/pipeline
     with: 
-      service-name: apidemo
+      site-name: apidemo
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
       
@@ -50,7 +50,7 @@ jobs:
     name: Start API Site
     uses: baufestdemos/ci_dotnet/.github/workflows/start_iis_site.yml@feature/pipeline
     with: 
-      service-name: apidemo
+      site-name: apidemo
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
           
