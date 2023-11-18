@@ -15,7 +15,7 @@ Host.CreateDefaultBuilder(args)
                 {
                     builder.AddEnvironmentVariables(prefix: "APIDEMO__");
                 }
-            });
+            }).UseIISIntegration();
         });
 
 var builder = WebApplication.CreateBuilder(args);
