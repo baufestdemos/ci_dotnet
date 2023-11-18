@@ -15,12 +15,14 @@ permissions:
   
 jobs:   
   build_upload:
+    name: Build & upload
     uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@feature/pipeline
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
     
   deploy_database:
+    name: Deploy Database
     needs: [build_upload]
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@feature/pipeline
     with: 
