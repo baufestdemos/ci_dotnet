@@ -3,7 +3,7 @@ run-name: Build solution & upload artifacts ${{ github.event_name }}
 on:
   workflow_dispatch:
     inputs:
-      dotnet-profile:
+      env-profile:
         required: true
         type: choice
         options:
@@ -13,7 +13,7 @@ on:
         
   workflow_call:
     inputs:
-      dotnet-profile:
+      env-profile:
         required: true
         type: string
 
@@ -45,7 +45,7 @@ jobs:
           path: |
             ~/.npm
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
@@ -53,31 +53,31 @@ jobs:
         run: dotnet test
 
       - name: Build with dotnet
-        run: dotnet build -c ${{inputs.dotnet-profile}}
+        run: dotnet build -c ${{inputs.env-profile}}
 
       - name: dotnet publish with .pdb
-        run: dotnet publish -c ${{inputs.dotnet-profile}}
-        if: ${{ inputs.dotnet-profile != 'Release' }} 
+        run: dotnet publish -c ${{inputs.env-profile}}
+        if: ${{ inputs.env-profile != 'Release' }} 
       
       - name: dotnet publish without .pdb
-        run: dotnet publish -c ${{inputs.dotnet-profile}} /p:DebugType=None /p:DebugSymbols=false
-        if: ${{ inputs.dotnet-profile == 'Release' }}
+        run: dotnet publish -c ${{inputs.env-profile}} /p:DebugType=None /p:DebugSymbols=false
+        if: ${{ inputs.env-profile == 'Release' }}
 
       - name: Upload demo Database
         uses: actions/upload-artifact@v3
         with:
           name: Demo.Database
-          path: ${{vars.BASE_PATH}}/1. database
+          path: ${{vars.LINUX_BASE_PATH}}/1. database
 
       - name: Upload demo API
         uses: actions/upload-artifact@v3
         with:
           name: Demo.API
-          path: ${{vars.BASE_PATH}}/3. api/bin/${{inputs.dotnet-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+          path: ${{vars.LINUX_BASE_PATH}}/3. api/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
             
       - name: Upload demo SPA BFF
         uses: actions/upload-artifact@v3
         with:
           name: Demo.SpaBff
-          path: ${{vars.BASE_PATH}}/4. spabff/bin/${{inputs.dotnet-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+          path: ${{vars.LINUX_BASE_PATH}}/4. spabff/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
       

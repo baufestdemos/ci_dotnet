@@ -3,7 +3,7 @@ name: Partial - Demo Database
 on:        
   workflow_call:
     inputs:
-      dotnet-profile:
+      env-profile:
         required: true
         type: string
 
@@ -13,14 +13,14 @@ permissions:
 jobs:                 
   deploy_staging:
     name: Deploy / Staging
-    runs-on: [self-hosted, "${{ inputs.dotnet-profile }}"]
-    if: ${{ inputs.dotnet-profile == 'Staging' }} 
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    if: ${{ inputs.env-profile == 'Staging' }} 
     steps:          
       - name: Download demo Database artifact
         uses: actions/download-artifact@v3
         with:
           name: Demo.Database
-          path: ${{ vars.BASE_PATH }}/Demo.Database
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.Database
           
       - name: Set up .NET Core 6
         uses: actions/setup-dotnet@v2
@@ -31,9 +31,13 @@ jobs:
         continue-on-error: true
         run: |
              dotnet tool install --global Evolve.Tool
+
+      - name: Toold directory
+        shell: powershell
+        run: cd ${{ vars.DOTNET_TOOLS_PATH }}
         
       - name: Evolve migration
-        shell: pwsh
+        shell: powershell
         run: |
-          evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -p schema1:demo
+          evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
           

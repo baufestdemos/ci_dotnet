@@ -3,7 +3,7 @@ name: Deploy demo Database
 on:
   workflow_dispatch:
     inputs:
-      dotnet-profile:
+      env-profile:
         required: true
         type: choice
         options:
@@ -15,15 +15,17 @@ permissions:
   
 jobs:   
   build_upload:
+    name: Build & upload
     uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@feature/pipeline
     with: 
-      dotnet-profile: ${{ inputs.dotnet-profile }}
+      env-profile: ${{ inputs.env-profile }}
     secrets: inherit
     
-  deploy_component:
+  deploy_database:
+    name: Deploy Database
     needs: [build_upload]
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@feature/pipeline
     with: 
-      dotnet-profile: ${{ inputs.dotnet-profile }}
+      env-profile: ${{ inputs.env-profile }}
     secrets: inherit
           
