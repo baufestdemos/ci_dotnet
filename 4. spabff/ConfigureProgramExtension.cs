@@ -55,7 +55,7 @@ public static class ConfigureProgramExtension
             });
         }
 
-        if (app.Environment.IsProduction())
+        if (!app.Environment.IsDevelopment())
         {
             app.MapFallbackToFile("index.html");
         }
