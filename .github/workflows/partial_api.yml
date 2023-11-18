@@ -20,6 +20,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Demo.API
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.API
 
       - name: IIS Deploy
         shell: powershell
