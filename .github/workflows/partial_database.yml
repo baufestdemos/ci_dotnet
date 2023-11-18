@@ -33,9 +33,11 @@ jobs:
              dotnet tool install --global Evolve.Tool
 
       - name: Toold directory
+        shell: powershell
         run: cd ${{ vars.DOTNET_TOOLS_PATH }}
         
       - name: Evolve migration
+        shell: powershell
         run: |
           evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
           
