@@ -67,17 +67,17 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Demo.Database
-          path: ${{vars.BASE_PATH}}/1. database
+          path: ${{vars.LINUX_BASE_PATH}}/1. database
 
       - name: Upload demo API
         uses: actions/upload-artifact@v3
         with:
           name: Demo.API
-          path: ${{vars.BASE_PATH}}/3. api/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+          path: ${{vars.LINUX_BASE_PATH}}/3. api/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
             
       - name: Upload demo SPA BFF
         uses: actions/upload-artifact@v3
         with:
           name: Demo.SpaBff
-          path: ${{vars.BASE_PATH}}/4. spabff/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+          path: ${{vars.LINUX_BASE_PATH}}/4. spabff/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
       
