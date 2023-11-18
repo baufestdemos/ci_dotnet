@@ -13,10 +13,9 @@ Host.CreateDefaultBuilder(args)
                 }
                 else
                 {
-                    builder.AddEnvironmentVariables(prefix: "APIDEMO__");
+                    builder.AddEnvironmentVariables();
                 }
-            }).UseIISIntegration()
-            .UseIIS();
+            });
         });
 
 var builder = WebApplication.CreateBuilder(args);
