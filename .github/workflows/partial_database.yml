@@ -20,7 +20,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Demo.Database
-          path: ${{ vars.BASE_PATH }}/Demo.Database
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.Database
           
       - name: Set up .NET Core 6
         uses: actions/setup-dotnet@v2
@@ -37,5 +37,5 @@ jobs:
         
       - name: Evolve migration
         run: |
-          evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.BASE_PATH }}/Demo.Database" -p schema1:demo
+          evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
           
