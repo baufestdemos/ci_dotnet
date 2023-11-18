@@ -37,12 +37,17 @@ jobs:
       - name: Stop site spabffdemo
         shell: powershell
         if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
-        run: Start-Website -Name spabffdemo
+        run: |
+          Start-WebAppPool spabffdemo
+          Start-Website -Name spabffdemo
+          
 
       - name: Stop site apidemo
         shell: powershell
         if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
-        run: Start-Website -Name apidemo
+        run: |
+          Start-WebAppPool apidemo
+          Start-Website -Name apidemo
         
 
         
