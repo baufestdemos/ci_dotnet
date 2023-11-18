@@ -15,7 +15,7 @@ jobs:
     name: Deploy / Staging
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
     if: ${{ inputs.env-profile == 'Staging' }} 
-    steps:
+    steps:  
       - name: Download artifac Demo API
         uses: actions/download-artifact@v3
         with:
@@ -26,6 +26,12 @@ jobs:
         shell: powershell
         run: |
           Copy-Item ${{ vars.WINDOWS_BASE_PATH }}/Demo.API/* ${{ vars.IIS_DEMO_API_PATH }} -Recurse -Force
+
+      - name: Set API Secrets
+        shell: powershell
+        run: |
+          [Environment]::SetEnvironmentVariable("APIDEMO_Test__Var","${{ secrets.TEST }}","Machine")
+          [Environment]::SetEnvironmentVariable("APIDEMO_Test__Var2","${{ secrets.TEST }}","Machine")
       
       
 
