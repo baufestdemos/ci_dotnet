@@ -10,11 +10,6 @@ on:
         - Staging
         - Release
         
-      data-base:
-        required: false
-        type: boolean
-        default: true
-        
 permissions:
   contents: read    
   
@@ -36,7 +31,6 @@ jobs:
     
   deploy_database:
     needs: [stop_application, build_upload]
-    if: ${{ inputs.data-base }}
     name: Deploy Database
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@feature/pipeline
     with: 
