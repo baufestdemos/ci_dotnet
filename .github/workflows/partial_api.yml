@@ -30,8 +30,8 @@ jobs:
       - name: Set API Secrets
         shell: powershell
         run: |
-          [Environment]::SetEnvironmentVariable("APIDEMO_Test__Var","${{ secrets.TEST }}","Machine")
-          [Environment]::SetEnvironmentVariable("APIDEMO_Test__Var2","${{ secrets.TEST }}","Machine")
+          [Environment]::SetEnvironmentVariable("APIDEMO__Test__Var","${{ secrets.TEST }}","Machine")
+          [Environment]::SetEnvironmentVariable("APIDEMO__Test__Var2","${{ secrets.TEST }}","Machine")
       
       
 
