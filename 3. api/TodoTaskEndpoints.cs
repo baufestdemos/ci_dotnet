@@ -54,9 +54,9 @@ public static class TodoTaskEndpointExtension
             return options;
         });
 
-        app.MapGet("/api/test", async (CancellationToken cancellationToken, IConfiguration configuration) =>
+        app.MapGet("/api/test", (CancellationToken cancellationToken, IConfiguration configuration) =>
         {
-            return configuration["Test:Var"];
+            return Results.Json(new { value = configuration["Test:Var"] });
         }).WithTags(groupTag)
         .WithOpenApi(options =>
         {
