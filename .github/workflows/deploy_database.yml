@@ -16,9 +16,12 @@ permissions:
 jobs:   
   build_upload:
     name: Build & upload
+    #Invocando otro workflow debe tener el trigger "workflow_call"
     uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@feature/pipeline
     with: 
+      #Traspaso de parametros al workflow invocado
       env-profile: ${{ inputs.env-profile }}
+    #Uso de secretos heredados del invocante
     secrets: inherit
     
   deploy_database:
