@@ -18,14 +18,14 @@ jobs:
         with:
           java-version: 17
       - name: Cache SonarQube packages
-        uses: actions/cache@v3
+        uses: actions/cache@v1
         with:
           path: ~\.sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache SonarQube scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v3
+        uses: actions/cache@v1
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
@@ -39,7 +39,7 @@ jobs:
       - name: Build and analyze
         shell: powershell
         run: |
-          dotnet test 5. test/5. test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          dotnet test "5. test/5. test.csproj" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Demo-CI-CD" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.cs.opencover.reportsPaths="5. test\coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests*.cs"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
