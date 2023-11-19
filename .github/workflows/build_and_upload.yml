@@ -1,5 +1,5 @@
 #nombre a mostrar para el pipeline
-name: Build solution & upload artifacts
+name: Build & upload
 #nombre a mostrar cuando se ejecutar el pipeline
 run-name: Build solution & upload artifacts ${{ github.event_name }}
 
