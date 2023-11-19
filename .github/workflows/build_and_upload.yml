@@ -1,6 +1,11 @@
+#nombre a mostrar para el pipeline
 name: Build solution & upload artifacts
+#nombre a mostrar cuando se ejecutar el pipeline
 run-name: Build solution & upload artifacts ${{ github.event_name }}
+
+#formas de disparar el workflow
 on:
+  #disparar manualmente
   workflow_dispatch:
     inputs:
       env-profile:
@@ -11,21 +16,28 @@ on:
         - Staging
         - Release
         
+  #disparar invocando desde otro workflow
   workflow_call:
     inputs:
       env-profile:
         required: true
         type: string
-
+        
+#permiso para la API de Github
 permissions:
   contents: read
-  
+
+#Trabajos del workflow
 jobs:
+  #Este workflow solo tiene un job de varios pasos. La etiqueta "build" se puede cambiar no es mandatoria
   build:
     name: Build solution, upload artifacts
     runs-on: ubuntu-latest
+    #pasos del job "build"
     steps:
+      #Checkout a la rama o tag
       - uses: actions/checkout@v3
+      
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
         with:
