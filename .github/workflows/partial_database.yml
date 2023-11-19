@@ -42,4 +42,34 @@ jobs:
         shell: powershell
         run: |
           evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
+
+  deploy_production:
+    name: Deploy / Production
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    if: ${{ inputs.env-profile == 'Release' }} 
+    steps:          
+      - name: Download demo Database artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.Database
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.Database
+          
+      - name: Set up .NET Core 6
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.411
+          
+      - name: Setup Evolve
+        continue-on-error: true
+        run: |
+             dotnet tool install --global Evolve.Tool
+
+      - name: Toold directory
+        shell: powershell
+        run: cd ${{ vars.DOTNET_TOOLS_PATH }}
+        
+      - name: Evolve migration
+        shell: powershell
+        run: |
+          evolve migrate sqlserver -c "${{ secrets.DB_RELEASE_PIPELINE_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
           
