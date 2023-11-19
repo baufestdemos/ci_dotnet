@@ -13,7 +13,9 @@ permissions:
 jobs:                 
   deploy_staging:
     name: Deploy / Staging
+    #Selector para agentes autohospedados que cumplan con la etiquetas entre []
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    #El job solo se ejecuta si se sumple la condición
     if: ${{ inputs.env-profile == 'Staging' }} 
     steps:          
       - name: Download demo Database artifact

@@ -30,6 +30,7 @@ jobs:
     secrets: inherit
     
   deploy_spabff:
+    name: Deploy SPA/BFF
     needs: [stop_application, build_upload]
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_spabff.yml@feature/pipeline
     with: 
