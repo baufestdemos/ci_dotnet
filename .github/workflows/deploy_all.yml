@@ -38,6 +38,8 @@ jobs:
     name: SonarQube Scan
     if: ${{ (github.event_name == 'workflow_dispatch' && inputs.env-profile == 'Release') || contains(github.ref, 'main') }}
     uses: baufestdemos/ci_dotnet/.github/workflows/sonarqube_scan.yml@feature/pipeline
+    with: 
+      env-profile: ${{ github.event_name == 'workflow_dispatch' && inputs.env-profile || contains(github.ref, 'staging') && 'Staging' || contains(github.ref, 'main') && 'Release'}}
     secrets: inherit
     
   deploy_database:
