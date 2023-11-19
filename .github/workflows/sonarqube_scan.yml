@@ -3,6 +3,10 @@ name: SonarQube Scan
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      env-profile:
+        required: true
+        type: string
 
 permissions:
   contents: read 
