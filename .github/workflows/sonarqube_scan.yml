@@ -2,20 +2,7 @@ name: SonarQube Scan
 
 on:
   workflow_dispatch:
-    inputs:
-      env-profile:
-        required: true
-        type: choice
-        options:
-        - Debug
-        - Staging
-        - Release
-        
   workflow_call:
-    inputs:
-      env-profile:
-        required: true
-        type: string
 
 jobs:
   scan:
@@ -31,14 +18,14 @@ jobs:
         with:
           java-version: 17
       - name: Cache SonarQube packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~\.sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache SonarQube scanner
         id: cache-sonar-scanner
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
