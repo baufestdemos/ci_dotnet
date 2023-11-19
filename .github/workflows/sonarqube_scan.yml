@@ -18,8 +18,8 @@ on:
         type: string
 
 jobs:
-  build:
-    name: Build
+  scan:
+    name: Scan .NET with SonarQube
     runs-on: windows-latest
     permissions: read-all
     steps:
@@ -50,7 +50,6 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
-        env: ${{inputs.env-profile}}
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Demo-CI-CD" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}"
