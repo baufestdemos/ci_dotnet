@@ -35,7 +35,7 @@ jobs:
     secrets: inherit
 
   code_quality:
-    name: SonarQube Scan
+    name: SonarQube Scanner
     if: ${{ (github.event_name == 'workflow_dispatch' && inputs.env-profile == 'Release') || contains(github.ref, 'main') }}
     uses: baufestdemos/ci_dotnet/.github/workflows/sonarqube_scan.yml@feature/pipeline
     with: 
