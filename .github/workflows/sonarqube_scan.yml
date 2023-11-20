@@ -12,7 +12,7 @@ jobs:
   scan:
     name: Scan .NET with SonarQube
     runs-on: windows-latest
-    permissions: read-all
+    #permissions: read-all
     steps:
       - uses: actions/checkout@v3
         with:
