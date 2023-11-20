@@ -16,7 +16,7 @@ permissions:
 jobs:
   stop_application:
     name: Stop API Site
-    uses: baufestdemos/ci_dotnet/.github/workflows/stop_iis_site.yml@feature/pipeline
+    uses: ./.github/workflows/stop_iis_site.yml
     with: 
       site-name: apidemo
       env-profile: ${{ inputs.env-profile }}
@@ -24,7 +24,7 @@ jobs:
       
   build_upload:
     name: Build & upload
-    uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@feature/pipeline
+    uses: ./.github/workflows/build_and_upload.yml
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
@@ -32,7 +32,7 @@ jobs:
   deploy_database:
     needs: [stop_application, build_upload]
     name: Deploy Database
-    uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@feature/pipeline
+    uses: ./.github/workflows/partial_database.yml
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
@@ -40,7 +40,7 @@ jobs:
   deploy_api:
     name: Deploy API
     needs: [stop_application, build_upload]
-    uses: baufestdemos/ci_dotnet/.github/workflows/partial_api.yml@feature/pipeline
+    uses: ./.github/workflows/partial_api.yml
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
@@ -48,7 +48,7 @@ jobs:
   start_application:
     needs: [deploy_database, deploy_api]
     name: Start API Site
-    uses: baufestdemos/ci_dotnet/.github/workflows/start_iis_site.yml@feature/pipeline
+    uses: ./.github/workflows/start_iis_site.yml
     with: 
       site-name: apidemo
       env-profile: ${{ inputs.env-profile }}
