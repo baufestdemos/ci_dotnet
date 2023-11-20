@@ -16,7 +16,7 @@ permissions:
 jobs:
   stop_application:
     name: Stop III Site
-    uses: baufestdemos/ci_dotnet/.github/workflows/stop_iis_site.yml@feature/pipeline
+    uses: ./.github/workflows/stop_iis_site.yml
     with: 
       site-name: spabffdemo
       env-profile: ${{ inputs.env-profile }}
@@ -24,7 +24,7 @@ jobs:
         
   build_upload:
     name: Build & upload
-    uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@feature/pipeline
+    uses: ./.github/workflows/build_and_upload.yml
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
@@ -32,7 +32,7 @@ jobs:
   deploy_spabff:
     name: Deploy SPA/BFF
     needs: [stop_application, build_upload]
-    uses: baufestdemos/ci_dotnet/.github/workflows/partial_spabff.yml@feature/pipeline
+    uses: ./.github/workflows/partial_spabff.yml
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
@@ -40,7 +40,7 @@ jobs:
   start_application:
     needs: [deploy_spabff]
     name: Start IIS Site
-    uses: baufestdemos/ci_dotnet/.github/workflows/start_iis_site.yml@feature/pipeline
+    uses: ./.github/workflows/start_iis_site.yml
     with: 
       site-name: spabffdemo
       env-profile: ${{ inputs.env-profile }}
