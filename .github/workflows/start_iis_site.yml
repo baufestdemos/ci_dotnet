@@ -30,11 +30,11 @@ on:
         type: string
             
 jobs:
-  stop_application:
-    name: Stop IIS Site
+  start_application:
+    name: Start IIS Site
     runs-on: [self-hosted, "${{ inputs.env-profile }}"]
     steps:
-      - name: Stop site spabffdemo
+      - name: Start site spabffdemo
         shell: powershell
         if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
         run: |
@@ -42,7 +42,7 @@ jobs:
           Start-Website -Name spabffdemo
           
 
-      - name: Stop site apidemo
+      - name: Start site apidemo
         shell: powershell
         if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
         run: |
