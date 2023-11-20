@@ -1,0 +1,69 @@
+name: Partial - Demo Database
+
+on:        
+  workflow_call:
+    inputs:
+      env-profile:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  
+jobs:                 
+  deploy_staging:
+    name: Deploy / Staging
+    #Selector para agentes autohospedados que cumplan con la etiquetas entre []
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    #El job solo se ejecuta si se sumple la condición
+    if: ${{ inputs.env-profile == 'Staging' }} 
+    steps:          
+      - name: Download demo Database artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.Database
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.Database
+          
+      - name: Set up .NET Core 6
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.411
+          
+      - name: Setup Evolve
+        continue-on-error: true
+        run: |
+             dotnet tool install --global Evolve.Tool
+
+      - name: Evolve migration
+        shell: powershell
+        run: |
+          cd ${{ vars.DOTNET_TOOLS_PATH }}
+          evolve migrate sqlserver -c "${{ secrets.DB_STAGING_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
+
+  deploy_production:
+    name: Deploy / Production
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    if: ${{ inputs.env-profile == 'Release' }} 
+    steps:          
+      - name: Download demo Database artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.Database
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.Database
+          
+      - name: Set up .NET Core 6
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.411
+          
+      - name: Setup Evolve
+        continue-on-error: true
+        run: |
+             dotnet tool install --global Evolve.Tool
+        
+      - name: Evolve migration
+        shell: powershell
+        run: |
+          cd ${{ vars.DOTNET_TOOLS_PATH }}
+          evolve migrate sqlserver -c "${{ secrets.DB_RELEASE_PIPELINE_CON_STRING }}" -l "${{ vars.WINDOWS_BASE_PATH }}/Demo.Database" -p schema1:demo
+          

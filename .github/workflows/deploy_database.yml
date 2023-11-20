@@ -1,0 +1,32 @@
+name: Deploy Demo Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      env-profile:
+        required: true
+        type: choice
+        options:
+        - Staging
+        - Release
+        
+permissions:
+  contents: read
+  
+jobs:   
+  build_upload:
+    #Invocando otro workflow debe tener el trigger "workflow_call"
+    uses: ./.github/workflows/build_and_upload.yml
+    with: 
+      #Traspaso de parametros al workflow invocado
+      env-profile: ${{ inputs.env-profile }}
+    #Uso de secretos heredados del invocante
+    secrets: inherit
+    
+  deploy_database:
+    needs: [build_upload]
+    uses: ./.github/workflows/partial_database.yml
+    with: 
+      env-profile: ${{ inputs.env-profile }}
+    secrets: inherit
+          

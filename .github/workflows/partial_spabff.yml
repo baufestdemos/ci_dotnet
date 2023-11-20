@@ -1,0 +1,45 @@
+name: Partial - Demo SPA/BFF
+
+on:
+  workflow_call:
+    inputs:
+      env-profile:
+        required: true
+        type: string
+        
+permissions:
+  contents: read    
+  
+jobs:    
+  deploy_staging:
+    name: Deploy / Staging
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    if: ${{ inputs.env-profile == 'Staging' }} 
+    steps:
+      - name: Download artifac Demo.SpaBff
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.SpaBff
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.SpaBff
+
+      - name: IIS Deploy
+        shell: powershell
+        run: |
+          Copy-Item ${{ vars.WINDOWS_BASE_PATH }}/Demo.SpaBff/* ${{ vars.IIS_DEMO_SPA_PATH }} -Recurse -Force
+
+  deploy_production:
+    name: Deploy / Production
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    if: ${{ inputs.env-profile == 'Release' }} 
+    steps:
+      - name: Download artifac Demo.SpaBff
+        uses: actions/download-artifact@v3
+        with:
+          name: Demo.SpaBff
+          path: ${{ vars.WINDOWS_BASE_PATH }}/Demo.SpaBff
+
+      - name: IIS Deploy
+        shell: powershell
+        run: |
+          Copy-Item ${{ vars.WINDOWS_BASE_PATH }}/Demo.SpaBff/* ${{ vars.IIS_DEMO_SPA_PATH }} -Recurse -Force
+    

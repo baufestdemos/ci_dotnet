@@ -1,0 +1,53 @@
+name: Deploy Demo API
+
+on:
+  workflow_dispatch:
+    inputs:
+      env-profile:
+        required: true
+        type: choice
+        options:
+        - Staging
+        - Release
+        
+permissions:
+  contents: read    
+  
+jobs:
+  stop_application:
+    uses: ./.github/workflows/stop_iis_site.yml
+    with: 
+      site-name: apidemo
+      env-profile: ${{ inputs.env-profile }}
+    secrets: inherit
+      
+  build_upload:
+    uses: ./.github/workflows/build_and_upload.yml
+    with: 
+      env-profile: ${{ inputs.env-profile }}
+    secrets: inherit
+    
+  deploy_database:
+    needs: [stop_application, build_upload]
+    uses: ./.github/workflows/partial_database.yml
+    with: 
+      env-profile: ${{ inputs.env-profile }}
+    secrets: inherit
+    
+  deploy_api:
+    needs: [stop_application, build_upload]
+    uses: ./.github/workflows/partial_api.yml
+    with: 
+      env-profile: ${{ inputs.env-profile }}
+    secrets: inherit
+    
+  start_application:
+    needs: [deploy_database, deploy_api]
+    uses: ./.github/workflows/start_iis_site.yml
+    with: 
+      site-name: apidemo
+      env-profile: ${{ inputs.env-profile }}
+    secrets: inherit
+          
+      
+    

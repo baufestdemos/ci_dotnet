@@ -1,0 +1,54 @@
+name: Stop IIS Site
+run-name:  ${{inputs.site-name}} - Stop IIS Site
+
+on:
+  workflow_dispatch:
+    inputs:        
+      site-name:
+        required: true
+        type: choice
+        options:
+        - apidemo
+        - spabffdemo
+        - all
+        
+      env-profile:
+        required: true
+        type: choice
+        options:
+        - Staging
+        - Release
+        
+  workflow_call:
+    inputs:  
+      site-name:
+        required: true
+        type: string 
+
+      env-profile:
+        required: true
+        type: string
+            
+jobs:
+  stop_application:
+    name: Stop IIS Site
+    runs-on: [self-hosted, "${{ inputs.env-profile }}"]
+    steps:
+      - name: Stop site spabffdemo
+        continue-on-error: true
+        shell: powershell
+        if: ${{ inputs.site-name == 'spabffdemo' || inputs.site-name == 'all'}}
+        run: |
+          Stop-WebSite -Name spabffdemo
+          Stop-WebAppPool spabffdemo
+
+      - name: Stop site apidemo
+        continue-on-error: true
+        shell: powershell
+        if: ${{ inputs.site-name == 'apidemo' || inputs.site-name == 'all'}}
+        run:  |
+          Stop-Website -Name apidemo
+          Stop-WebAppPool apidemo
+        
+
+        

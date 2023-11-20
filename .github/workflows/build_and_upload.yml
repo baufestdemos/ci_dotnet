@@ -1,0 +1,95 @@
+#nombre a mostrar para el pipeline
+name: Build & upload
+#nombre a mostrar cuando se ejecutar el pipeline
+run-name: Build solution & upload artifacts ${{ github.event_name }}
+
+#formas de disparar el workflow
+on:
+  #disparar manualmente
+  workflow_dispatch:
+    inputs:
+      env-profile:
+        required: true
+        type: choice
+        options:
+        - Debug
+        - Staging
+        - Release
+        
+  #disparar invocando desde otro workflow
+  workflow_call:
+    inputs:
+      env-profile:
+        required: true
+        type: string
+        
+#permiso para la API de Github
+permissions:
+  contents: read
+
+#Trabajos del workflow
+jobs:
+  #Este workflow solo tiene un job de varios pasos. La etiqueta "build" se puede cambiar no es mandatoria
+  build:
+    name: Build & upload
+    runs-on: ubuntu-latest
+    #pasos del job "build"
+    steps:
+      #Checkout a la rama o tag
+      - uses: actions/checkout@v3
+      
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ vars.DOTNET_VERSION }}
+
+      - name: Set up dependency caching for nuget
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+            
+      - name: Set up dependency caching for npm-next
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: Test with dotnet
+        run: dotnet test
+
+      - name: Build with dotnet
+        run: dotnet build -c ${{inputs.env-profile}}
+
+      - name: dotnet publish with .pdb
+        run: dotnet publish -c ${{inputs.env-profile}}
+        if: ${{ inputs.env-profile != 'Release' }} 
+      
+      - name: dotnet publish without .pdb
+        run: dotnet publish -c ${{inputs.env-profile}} /p:DebugType=None /p:DebugSymbols=false
+        if: ${{ inputs.env-profile == 'Release' }}
+
+      - name: Upload demo Database
+        uses: actions/upload-artifact@v3
+        with:
+          name: Demo.Database
+          path: ${{vars.LINUX_BASE_PATH}}/1. database
+
+      - name: Upload demo API
+        uses: actions/upload-artifact@v3
+        with:
+          name: Demo.API
+          path: ${{vars.LINUX_BASE_PATH}}/3. api/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+            
+      - name: Upload demo SPA BFF
+        uses: actions/upload-artifact@v3
+        with:
+          name: Demo.SpaBff
+          path: ${{vars.LINUX_BASE_PATH}}/4. spabff/bin/${{inputs.env-profile}}/${{vars.DOTNET_FW_VERSION}}/publish
+      
