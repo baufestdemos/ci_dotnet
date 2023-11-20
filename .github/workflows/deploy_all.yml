@@ -40,7 +40,7 @@ jobs:
     secrets: inherit
     
   deploy_database:
-    needs: [stop_application, build_upload, code_quality]
+    needs: [stop_application, build_upload]
     name: Deploy Database
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@feature/pipeline
     with: 
@@ -48,7 +48,7 @@ jobs:
     secrets: inherit
     
   deploy_api:
-    needs: [stop_application, build_upload, code_quality]
+    needs: [stop_application, build_upload]
     name: Deploy API
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_api.yml@feature/pipeline
     with: 
@@ -56,7 +56,7 @@ jobs:
     secrets: inherit
     
   deploy_spa_bff:
-    needs: [stop_application, build_upload, code_quality]
+    needs: [stop_application, build_upload]
     name: Deploy SPA/BFF
     uses: baufestdemos/ci_dotnet/.github/workflows/partial_spabff.yml@feature/pipeline
     with: 
@@ -64,7 +64,7 @@ jobs:
     secrets: inherit
     
   start_application:
-    needs: [deploy_database, deploy_api, deploy_spa_bff, code_quality]
+    needs: [deploy_database, deploy_api, deploy_spa_bff]
     name: Start All IIS Sites
     uses: baufestdemos/ci_dotnet/.github/workflows/start_iis_site.yml@feature/pipeline
     with: 
