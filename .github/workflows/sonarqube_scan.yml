@@ -1,7 +1,8 @@
-name: SonarQube Scan
+name: SonarQube Scanner
 
 on:
   workflow_dispatch:
+  
   workflow_call:
     inputs:
       env-profile:
