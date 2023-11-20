@@ -31,7 +31,7 @@ permissions:
 jobs:
   #Este workflow solo tiene un job de varios pasos. La etiqueta "build" se puede cambiar no es mandatoria
   build:
-    name: Build solution, upload artifacts
+    name: Build & upload
     runs-on: ubuntu-latest
     #pasos del job "build"
     steps:
