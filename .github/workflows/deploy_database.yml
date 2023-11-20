@@ -17,7 +17,7 @@ jobs:
   build_upload:
     name: Build & upload
     #Invocando otro workflow debe tener el trigger "workflow_call"
-    uses: baufestdemos/ci_dotnet/.github/workflows/build_and_upload.yml@main
+    uses: ./.github/workflows/build_and_upload.yml
     with: 
       #Traspaso de parametros al workflow invocado
       env-profile: ${{ inputs.env-profile }}
@@ -27,7 +27,7 @@ jobs:
   deploy_database:
     name: Deploy Database
     needs: [build_upload]
-    uses: baufestdemos/ci_dotnet/.github/workflows/partial_database.yml@main
+    uses: ./.github/workflows/partial_database.yml
     with: 
       env-profile: ${{ inputs.env-profile }}
     secrets: inherit
