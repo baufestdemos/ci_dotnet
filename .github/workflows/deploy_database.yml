@@ -15,7 +15,6 @@ permissions:
   
 jobs:   
   build_upload:
-    name: Build & upload
     #Invocando otro workflow debe tener el trigger "workflow_call"
     uses: ./.github/workflows/build_and_upload.yml
     with: 
