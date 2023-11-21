@@ -4,16 +4,16 @@
 La solución contiene 5 directorios principales para la aplicación:
 1. database: Directorio donde se colocan los archivos de migración de base de datos
 con el formato del dotnet tool ["Evolve"](https://evolve-db.netlify.app/) 
-2. core: Librería de de lógica de negocio y clases base en dotnet 
+2. core: Librería de lógica de negocio y clases base en dotnet 
 3. api: Proyecto de API Rest utilizando ["Minimal API ASP .NET Core"](https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-8.0&tabs=visual-studio)
 4. spabff: Proyecto de frontend implementando el patron BFF (Backend for frontend). 
-Es un proyecto ASP .NET Core que contiene un proyecto Next js exportado como archivos estaticos en la directorio wwwroot y que implementa un reverse proxy al API utilizando ["YARP reverse proxy"](https://microsoft.github.io/reverse-proxy/)
+Es un proyecto ASP .NET Core que contiene un proyecto Next js exportado como archivos estaticos en la directorio wwwroot y que implementa un reverse proxy al API, utilizando ["YARP reverse proxy"](https://microsoft.github.io/reverse-proxy/)
 5. test: Proyecto de test unitarios del proyecto "core" utilizando XUnit y Coverlet para medir la cobertura
 
 ## Implementar en local:
 * Tener instalado [".NET 7"](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 * Implementar un servidor de base de datos local con SQL Server Developer Edition. Se puede implementar usando docker engine en el ["WSL 2"](https://learn.microsoft.com/en-us/windows/wsl/install) o en ["Podman"](https://podman.io/)
-* Con el CLI de preferencia y en el direcotorio del proyecto "3. api" ejecutar el comando: ```dotnet user-secrets init```
+* Con el CLI de preferencia y en el directorio del proyecto "3. api" ejecutar el comando: ```dotnet user-secrets init```
 * Setear el secreto de la conexión a base de datos: ```dotnet user-secrets set 'DemoDbConnection' '${valor}'```
 * Setear el secreto de ubicación del directorio "1. base de datos" en el sistema de archivos: ```dotnet user-secrets set 'DatabaseLocation' '${valor}'```
 * Se puede ejecutar en Visual Studio o VS Code (ya existen las configuraciones de lanzamiento)
