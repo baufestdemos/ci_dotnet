@@ -20,4 +20,8 @@ export class TodoApiClient extends HttpClient {
     public async remove<Key>(id: Key): Promise<Result<TodoTask>> {
         return (await this.delete(`/task?id=${id}`)).data;
     }
+
+    public async editDescription(data: TodoTask): Promise<Result<TodoTask>> {
+        return (await this.put('/task/description/edit', data)).data;
+    }
 }

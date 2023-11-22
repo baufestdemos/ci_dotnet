@@ -1,4 +1,5 @@
 export interface TodoTask {
     id: number,
-    subject: string
+    subject: string,
+    description?: string
 }

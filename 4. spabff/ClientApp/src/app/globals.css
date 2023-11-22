@@ -27,6 +27,10 @@ body {
   @apply font-bold py-2 px-4 rounded;
 }
 
+.btn-sm {
+  @apply px-1 rounded;
+}
+
 .btn-blue {
   margin-left: 10px;
   @apply bg-blue-500 text-white;
@@ -36,14 +40,18 @@ body {
   @apply bg-blue-700;
 }
 
-.btn-sm {
-  @apply px-1 rounded;
-}
-
 .btn-red {
   @apply bg-red-500 text-white;
 }
 
 .btn-red:hover {
   @apply bg-red-700;
+}
+
+.btn-green {
+  @apply bg-green-500 text-white;
+}
+
+.btn-green:hover {
+  @apply bg-green-700;
 }
