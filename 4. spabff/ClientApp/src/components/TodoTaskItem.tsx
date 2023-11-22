@@ -27,6 +27,10 @@ export function TodoTaskItem({ ...props }: TodoTaskProps) {
                             </textarea>
                         </div>
                         <div className="flex justify-end" >
+                            <button type="button" className="btn-sm btn-red" onClick={() => {
+                                setVisibleDescription(false);
+                                setDescription(props.todoTask.description);
+                            }}>Cancelar</button>
                             <button type="button" className="btn-sm btn-blue" onClick={() => {
                                 setVisibleDescription(false);
                                 props.todoTask.description = description;

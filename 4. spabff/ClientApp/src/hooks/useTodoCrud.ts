@@ -37,11 +37,16 @@ export const useTodoCrud = () => {
     }
 
     const editTask = (todoTask: TodoTask) => {
-        todoApiClient.editDescription(todoTask).then(result => {
-            if (result.success) {
-                remoteList();
-            }
-        })
+        if (todoTask.description) {
+            todoApiClient.editDescription({
+                taskId: todoTask.id,
+                description: todoTask.description
+            }).then(result => {
+                if (result.success) {
+                    remoteList();
+                }
+            })
+        }
     }
 
     return {
