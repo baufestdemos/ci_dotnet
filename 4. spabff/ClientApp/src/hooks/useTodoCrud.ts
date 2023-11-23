@@ -36,10 +36,24 @@ export const useTodoCrud = () => {
             });
     }
 
+    const editTask = (todoTask: TodoTask) => {
+        if (todoTask.description) {
+            todoApiClient.editDescription({
+                taskId: todoTask.id,
+                description: todoTask.description
+            }).then(result => {
+                if (result.success) {
+                    remoteList();
+                }
+            })
+        }
+    }
+
     return {
         todoList,
         remoteList,
         addNewTask,
-        removeTask
+        removeTask,
+        editTask
     }
 }

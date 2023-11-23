@@ -1,5 +1,6 @@
 import { Result } from "@/domain/Result";
 import { TodoTask } from "@/domain/TodoTask";
+import { TodoTaskDescription } from "@/domain/TodoTaskDescription";
 import HttpClient from "@/utils/HttpClient";
 
 export class TodoApiClient extends HttpClient {
@@ -19,5 +20,9 @@ export class TodoApiClient extends HttpClient {
 
     public async remove<Key>(id: Key): Promise<Result<TodoTask>> {
         return (await this.delete(`/task?id=${id}`)).data;
+    }
+
+    public async editDescription(data: TodoTaskDescription): Promise<Result<TodoTaskDescription>> {
+        return (await this.put('/task/description/edit', data)).data;
     }
 }

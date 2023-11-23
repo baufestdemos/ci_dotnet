@@ -16,12 +16,14 @@ public static class TodoMocks
             new() {
                 Id = 1,
                 Subject="Task 1",
-                Active = true
+                Active = true,
+                TaskDescriptionHistories = new List<TaskDescriptionHistory>(){}
             },
             new() {
                 Id = 2,
                 Subject="Task 2",
-                Active = true
+                Active = true,
+                TaskDescriptionHistories = new List<TaskDescriptionHistory>(){}
             }
         };
     }

@@ -6,8 +6,8 @@ namespace Core.Todo.Infra;
 public class EFDemoDbContext : DbContext
 {
     public virtual DbSet<TodoTask> TodoTasks { get; set; }
+    public virtual DbSet<TaskDescriptionHistory> TaskDescriptionHistories { get; set; }
     public EFDemoDbContext() { }
-
     public EFDemoDbContext(DbContextOptions options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,11 +17,17 @@ public class EFDemoDbContext : DbContext
 
         modelBuilder.Entity<TodoTask>()
         .Property(e => e.Active).HasDefaultValue();
-    }
 
-    public void FindAsync(object[] objects)
-    {
-        throw new NotImplementedException();
+        modelBuilder.Entity<TaskDescriptionHistory>().ToTable("TaskDescriptionHistory", "demo")
+        .HasKey(e => e.Id);
+
+        modelBuilder.Entity<TaskDescriptionHistory>()
+        .Property(e => e.Active).HasDefaultValue();
+
+        modelBuilder.Entity<TaskDescriptionHistory>()
+        .HasOne(e => e.TodoTask)
+        .WithMany(e => e.TaskDescriptionHistories)
+        .HasForeignKey(e => e.TaskId);
     }
 }
 

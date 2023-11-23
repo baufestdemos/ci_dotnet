@@ -20,7 +20,8 @@ public class TaskListQuery : IQueryHandler<object?, IEnumerable<TodoTaskTo>>
         .Select(e => new TodoTaskTo
         {
             Id = e.Id,
-            Subject = e.Subject
+            Subject = e.Subject,
+            Description = e.Description
         });
     }
 }

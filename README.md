@@ -5,7 +5,7 @@ La solución contiene 5 directorios principales para la aplicación:
 1. database: Directorio donde se colocan los archivos de migración de base de datos
 con el formato del dotnet tool ["Evolve"](https://evolve-db.netlify.app/) 
 2. core: Librería de lógica de negocio y clases base en dotnet 
-3. api: Proyecto de API Rest utilizando ["Minimal API ASP .NET Core"](https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-8.0&tabs=visual-studio)
+3. api: Proyecto de API Rest utilizando ["Minimal API ASP .NET Core"](https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-8.0&tabs=visual-studio) y patron CQRS
 4. spabff: Proyecto de frontend implementando el patron BFF (Backend for frontend). 
 Es un proyecto ASP .NET Core que contiene un proyecto Next js exportado como archivos estaticos en la directorio wwwroot y que implementa un reverse proxy al API, utilizando ["YARP reverse proxy"](https://microsoft.github.io/reverse-proxy/)
 5. test: Proyecto de test unitarios del proyecto "core" utilizando XUnit y Coverlet para medir la cobertura

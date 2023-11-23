@@ -54,6 +54,22 @@ public static class TodoTaskEndpointExtension
             return options;
         });
 
+        app.MapPut("/api/task/description/edit", async (CancellationToken cancellationToken,
+            ICommandHandler<TodoTaskDescriptionTo, ResultTo<TodoTaskDescriptionTo?>> editDescriptionCommand, ITransactor transactor,
+            TodoTaskDescriptionTo descriptionTask) =>
+        {
+            return await transactor.BeginAsync(async () =>
+            {
+                return await editDescriptionCommand.Handle(cancellationToken, descriptionTask);
+            });
+        }).WithTags(groupTag)
+        .WithOpenApi(options =>
+        {
+            options.Summary = "Edit description task";
+            options.Description = "Edit description task and save history";
+            return options;
+        });
+
         return app;
     }
 }
